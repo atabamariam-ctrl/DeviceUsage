@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddDevice">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <EditText
+            android:id="@+id/editDeviceName"
+            android:layout_width="367dp"
+            android:layout_height="50dp"
+            android:hint="Device Name" />
+
+        <EditText
+            android:id="@+id/editDeviceType"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Device Type" />
+
+        <EditText
+            android:id="@+id/editModel"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Model" />
+
+        <EditText
+            android:id="@+id/editBrand"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Brand" />
+
+        <Button
+            android:id="@+id/btnAddDevice"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="Add Device" />
+    </LinearLayout>
+</FrameLayout>
