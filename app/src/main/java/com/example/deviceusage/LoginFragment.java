@@ -14,6 +14,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+
 
 public class LoginFragment extends Fragment {
     private EditText etUsername , etPassword;
@@ -103,7 +107,7 @@ public class LoginFragment extends Fragment {
     }
     private void gotoForgotPasswordFragment(){
         FragmentTransaction ft= getActivity().getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.frameLayoutMain,new FrgotPasswordFragment());
+        ft.replace(R.id.frameLayoutMain,new ForgetPassword());
         ft.commit();
     }
 
