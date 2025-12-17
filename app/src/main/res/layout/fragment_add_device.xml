@@ -41,5 +41,19 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:text="Add Device" />
+
+        <ImageView
+            android:id="@+id/deviceImage"
+            android:layout_width="365dp"
+            android:layout_height="153dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_launcher_background" />
+
+        <Button
+            android:id="@+id/btnPickImage"
+            android:layout_width="367dp"
+            android:layout_height="wrap_content"
+            android:text="Choose Image" />
+
     </LinearLayout>
 </FrameLayout>
