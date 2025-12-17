@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -21,6 +22,9 @@ public class AddDevice extends Fragment {
     private EditText editDeviceName, editDeviceType, editModel, editBrand;
     private Button btnAddDevice;
     private FirebaseFirestore db;
+    ImageView img;
+    private String imageStr;
+    private Utils utils;
 
     @Nullable
     @Override
