@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddDevice">
+    tools:context=".AddDeviceFragment">
 
 
     <LinearLayout
@@ -13,25 +14,25 @@
         android:padding="24dp">
 
         <EditText
-            android:id="@+id/editDeviceName"
+            android:id="@+id/etDeviceName"
             android:layout_width="367dp"
             android:layout_height="50dp"
             android:hint="Device Name" />
 
         <EditText
-            android:id="@+id/editDeviceType"
+            android:id="@+id/etDeviceType"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:hint="Device Type" />
 
         <EditText
-            android:id="@+id/editModel"
+            android:id="@+id/etModel"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:hint="Model" />
 
         <EditText
-            android:id="@+id/editBrand"
+            android:id="@+id/etBrand"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:hint="Brand" />

@@ -1,12 +1,14 @@
 package com.example.deviceusage;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -15,13 +17,28 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.My
 
     Context context;
     ArrayList<DevicesItem> DeviceList;
-    private OnItemClickListener itemClickListener;
+    private DeviceListAdapter.OnItemClickListener itemClickListener;
     private FirebaseServices fbs;
 
     public DeviceListAdapter(Context context, ArrayList<DevicesItem> DeviceList) {
         this.context = context;
         this.DeviceList = DeviceList;
         this.fbs = FirebaseServices.getInstance();
+        this.itemClickListener = new OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                /*
+                String selectedItem = filteredList.get(position).getNameDevice();
+                Toast.makeText(getActivity(), "Clicked: " + selectedItem, Toast.LENGTH_SHORT).show(); */
+                Bundle args = new Bundle();
+                args.putParcelable("Device", DeviceList.get(position)); // or use Parcelable for better performance
+                DeviceDetailsFragment cd = new DeviceDetailsFragment();
+                cd.setArguments(args);
+                FragmentTransaction ft= ((MainActivity)context).getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.framelayot,cd);
+                ft.commit();
+            }
+        } ;
     }
 
     @NonNull
@@ -34,25 +51,23 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.My
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         DevicesItem Device = DeviceList.get(position);
-
-
         // ======== النصوص ===========
         holder.Name.setText(Device.getName());
         holder.Model.setText(Device.getModel());
         holder.Year.setText(Device.getYear());
         holder.Type.setText(Device.getType());
 
-
-
-
-
-
-
         // ======== النقر على العنصر ============
         holder.itemView.setOnClickListener(v -> {
             if (itemClickListener != null)
                 itemClickListener.onItemClick(position);
         });
+        /*
+        holder.carName.setOnClickListener(v -> {
+            if (clickListener != null) {
+                clickListener.setOnItemClick(position);
+            }
+        }); */
     }
 
     @Override

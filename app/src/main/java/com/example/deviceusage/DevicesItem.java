@@ -10,7 +10,7 @@ public class DevicesItem {
 
         public DevicesItem() { }
 
-        public DevicesItem(String name, String mood, String year, String type, String photo) {
+        public DevicesItem(String name, String model, String year, String type, String photo) {
             this.name = name;
             this.model = model;
             this.year = year;
@@ -19,10 +19,25 @@ public class DevicesItem {
         }
 
         public String getName() { return name; }
+    public void setName(String name) {
+        this.name = name;
+    }
         public String getModel() { return model;}
+    public void setModel(String model) {
+        this.photo = model;
+    }
         public String getYear() { return year; }
+    public void setYear(String year) {
+        this.year = year;
+    }
         public String getType() { return type; }
+    public void setType(String type) {
+        this.type = type;
+    }
         public String getPhoto() { return photo; }
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
 
 
     }

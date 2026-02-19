@@ -81,7 +81,7 @@ public class LoginFragment extends Fragment {
                             Toast.makeText(getActivity(), "you have successfully login!", Toast.LENGTH_SHORT).show();
 
                             FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                            ft.replace(R.id.frameLayoutMain, new AdminFragment());
+                            ft.replace(R.id.framelayot, new AdminFragment());
                             ft.commit();
 
                         }
@@ -102,12 +102,12 @@ public class LoginFragment extends Fragment {
 
     private void gotoSignupFragment() {
         FragmentTransaction ft = getActivity(). getSupportFragmentManager().beginTransaction();
-        ft . replace(R.id.frameLayoutMain,new SignupFragment())  ;
+        ft . replace(R.id.framelayot,new SignupFragment())  ;
         ft . commit();
     }
     private void gotoForgotPasswordFragment(){
         FragmentTransaction ft= getActivity().getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.frameLayoutMain,new ForgetPassword());
+        ft.replace(R.id.framelayot,new ForgetPassword());
         ft.commit();
     }
 

@@ -31,7 +31,7 @@ public class AdminFragment extends Fragment {
         // زر الصفحة الأولى
         btnPage1.setOnClickListener(v -> {
             FragmentTransaction ft = getParentFragmentManager().beginTransaction();
-            ft.replace(R.id.framelayot, new AddDevice());
+            ft.replace(R.id.framelayot, new AddDeviceFragment());
             ft.addToBackStack(null); // يتيح الرجوع
             ft.commit();
         });

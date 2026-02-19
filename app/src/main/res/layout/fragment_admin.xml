@@ -19,12 +19,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:text="اذهب للصفحة 1" />
+            android:text="go to page 1" />
 
         <Button
             android:id="@+id/btnPage2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="اذهب للصفحة 2" />
+            android:text="go to page 2" />
     </LinearLayout>
 </FrameLayout>

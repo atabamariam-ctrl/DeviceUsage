@@ -4,6 +4,9 @@ plugins {
 }
 
 android {
+
+
+
     namespace = "com.example.deviceusage"
     compileSdk {
         version = release(36)
@@ -32,6 +35,9 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
+    aaptOptions.cruncherEnabled = false
+    aaptOptions.useNewCruncher = false
 }
 
 dependencies {
