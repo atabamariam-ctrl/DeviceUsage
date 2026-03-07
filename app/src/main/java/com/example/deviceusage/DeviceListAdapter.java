@@ -54,7 +54,7 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.My
         // ======== النصوص ===========
         holder.Name.setText(Device.getName());
         holder.Model.setText(Device.getModel());
-        holder.Year.setText(Device.getYear());
+        holder.Brand.setText(Device.getBrand());
         holder.Type.setText(Device.getType());
 
         // ======== النقر على العنصر ============
@@ -68,6 +68,12 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.My
                 clickListener.setOnItemClick(position);
             }
         }); */
+        if (device.getPhoto() == null .getPhoto().isEmpty());
+        {
+            Picasso.get().load(R.drawable.ic_fav).into(holder.ivDevice); }
+        else {
+            Picasso.get().load(device.getPhoto()).into(holder.ivDevice);
+        }
     }
 
     @Override
@@ -84,7 +90,7 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.My
 
     // ========= ViewHolder ===========
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView Name, Model, Year, Type;
+        TextView Name, Model, Brand, Type;
 
 
         public MyViewHolder(@NonNull View itemView) {
@@ -92,7 +98,7 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.My
 
             Name = itemView.findViewById(R.id.tvName);
             Model = itemView.findViewById(R.id.tvModel);
-            Year = itemView.findViewById(R.id.tvDate);
+            Brand = itemView.findViewById(R.id.tvBrand);
             Type = itemView.findViewById(R.id.tvType);
 
         }

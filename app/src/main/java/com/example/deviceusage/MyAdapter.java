@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -35,11 +36,40 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
         holder.name.setText(item.getName());
         holder.model.setText(item.getModel());
-        holder.year.setText(item.getYear());
+        holder.Brand.setText(item.getYear());
         holder.type.setText(item.getType());
         // إذا أردت عرض الصورة لاحقاً
+        holder.name.setOnClickListener(v -> {
+            if (itemClickListener != null) {
+                itemClickListener.onItemClick(position);
     }
 
+        });
+        if (device.getPhoto() == null || device.getPhoto().isEmpty())
+        {
+            Picasso.get().load(R.drawable.ic_fav).into(holder.ivDevice);
+        }
+        else {
+            Picasso.get().load(Device.getPhoto()).into(holder.ivDevice);
+        }
+        holder.ivFavourite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setFavourite(holder, device);
+            }
+        });
+    }
+    private void setFavourite(@NonNull MyViewHolder holder, Device device) {
+        /*
+        if (isUserFavourite(device) == true)
+        {
+            holder.ivFavourite.setBackgroundResource(R.drawable.ic_fav);
+        }
+        else
+        {
+
+        } */
+    }
     @Override
     public int getItemCount() {
         return list.size();
@@ -47,15 +77,18 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView name, model, year, type;
+        TextView name, model, Brand , type;
+        ImageView ivDevice, ivFavourite;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            name = itemView.findViewById(R.id.tvName);
-            model = itemView.findViewById(R.id.tvModel);
-            year = itemView.findViewById(R.id.tvDate);
-            type = itemView.findViewById(R.id.tvType);
+            name = itemView.findViewById(R.id.tvDeviceName_deviceListFragment);
+            model = itemView.findViewById(R.id.tvModel_deviceListFragment);
+            Brand = itemView.findViewById(R.id.tvBrand_deviceListFragment);
+            type = itemView.findViewById(R.id.tvType_deviceListFragment);
+            ivFavourite = itemView.findViewById(R.id.ivFavoriteIcon);
+            ivDevice = itemView.findViewById(R.id.ivDevicePhotoItem);
         }
     }
 

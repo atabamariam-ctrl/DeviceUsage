@@ -32,7 +32,7 @@ import java.util.UUID;
 
 
 public class AddDeviceFragment extends Fragment {
-    private EditText etDeviceName, etDeviceType, etModel, etBrand , etPhoto ;
+    private EditText etPhone,etDeviceName, etDeviceType, etModel, etBrand ;
     private Button btnAddDevice;
     private FirebaseServices fbs;
     ImageView img;
@@ -97,10 +97,11 @@ public class AddDeviceFragment extends Fragment {
         //editText
         fbs = FirebaseServices.getInstance();
         utils = Utils.getInstance();
-        etDeviceName=getView().findViewById(R.id.etDeviceName);
-        etBrand=getView().findViewById(R.id.etBrand);
-        etDeviceType=getView().findViewById(R.id.etDeviceType);
-        etModel=getView().findViewById(R.id.etModel);
+        etDeviceName=getView().findViewById(R.id.etDeviceNameAddFragment);
+        etBrand=getView().findViewById(R.id.etBrandAddFragment);
+        etDeviceType=getView().findViewById(R.id.etDeviceTypeAddFragment);
+        etModel=getView().findViewById(R.id.etModelAddFragment);
+        etPhone=getView().findViewById(R.id.etPhoneAddFragment);
 
         //button for add car
         btnAddDevice=getView().findViewById(R.id.btnAddDevice);
@@ -122,13 +123,14 @@ public class AddDeviceFragment extends Fragment {
 }
 private void addToFirestore() {
 
-    String DeviceName, DeviceType, Model, Brand;
+    String DeviceName, DeviceType, Model, Brand , phone;
 //get data from screen
 
     DeviceName = etDeviceName.getText().toString();
     DeviceType = etDeviceType.getText().toString();
     Model = etModel.getText().toString();
     Brand = etBrand.getText().toString();
+    phone = etPhone.getText().toString();
     if (DeviceName.trim().isEmpty() ||
             DeviceType.trim().isEmpty() ||
             Model.trim().isEmpty() ||
@@ -138,9 +140,9 @@ private void addToFirestore() {
     }
     Device device;
     if (fbs.getSelectedImageURL() == null) {
-        device = new Device(DeviceName, DeviceType, Model, Brand, "");
+        device = new Device(DeviceName, DeviceType, Model, Brand,phone, "");
     } else {
-        device = new Device(DeviceName, DeviceType, Model, Brand, fbs.getSelectedImageURL().toString());
+        device = new Device(phone , DeviceName, DeviceType, Model, Brand, fbs.getSelectedImageURL().toString());
     }
 
     fbs.getFire().collection("device").add(device)

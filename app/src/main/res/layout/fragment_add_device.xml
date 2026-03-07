@@ -14,25 +14,31 @@
         android:padding="24dp">
 
         <EditText
-            android:id="@+id/etDeviceName"
+            android:id="@+id/etDeviceNameAddFragment"
             android:layout_width="367dp"
             android:layout_height="50dp"
             android:hint="Device Name" />
+        <EditText
+            android:id="@+id/etPhoneAddFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Phone"
+            android:inputType="number" />
 
         <EditText
-            android:id="@+id/etDeviceType"
+            android:id="@+id/etDeviceTypeAddFragment"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:hint="Device Type" />
 
         <EditText
-            android:id="@+id/etModel"
+            android:id="@+id/etModelAddFragment"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:hint="Model" />
 
         <EditText
-            android:id="@+id/etBrand"
+            android:id="@+id/etBrandAddFragment"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:hint="Brand" />

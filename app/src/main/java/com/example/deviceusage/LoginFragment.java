@@ -20,10 +20,13 @@ import com.google.firebase.auth.AuthResult;
 
 
 public class LoginFragment extends Fragment {
-    private EditText etUsername , etPassword;
-    private TextView tvSignupLink, tvForgotpassword;
+
+    private EditText etUsername,etPassword;
+    private TextView tvSignupLink;
+    private TextView tvForgotPasswardLink;
     private Button btnLogin;
-    private FirebaseServices fbs ;
+    private Button asGuest;
+    private FirebaseServices fbs;
 
 
 
@@ -41,74 +44,117 @@ public class LoginFragment extends Fragment {
 
 
     }
+
     @Override
     public void onStart() {
         super.onStart();
-        etUsername = getView().findViewById(R.id.etUsernameLogin);
-        etPassword = getView().findViewById(R.id.etPasswordLogin);
-        btnLogin = getView().findViewById(R.id.btnLoginLogin);
-        tvSignupLink = getView().findViewById(R.id.tvSignupLogin);
-        tvForgotpassword=getView().findViewById(R.id.tvForgotpassword);
-        tvForgotpassword.setOnClickListener(new View.OnClickListener() {
+        // connecting components
+        fbs = FirebaseServices.getInstance();
+        asGuest=getView().findViewById(R.id.btnGuest);
+        asGuest.setVisibility(View.INVISIBLE);
+        etUsername=getView().findViewById(R.id.etUsernameLogin);
+        tvSignupLink=getView().findViewById(R.id.tvSignupLinkLogin);
+        tvForgotPasswardLink=getView().findViewById(R.id.tvForgotPasswordLogin);
+        etPassword=getView().findViewById(R.id.etPasswordLogin);
+        btnLogin=getView().findViewById(R.id.btnLoginLogin);
+
+        /*
+        asGuest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                gotoForgotPasswordFragment();
+                gotoCarList();
+                setNavigationBarVisible();
             }
-        });
+        }); */
+
         tvSignupLink.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 gotoSignupFragment();
             }
         });
+
+        tvForgotPasswardLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                gotoFrgotPasswordFragment();
+            }
+        });
+
+
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
+            public void onClick(View view) {
+                //Data validation
 
-            public void onClick(View v) {
-                // data validation
-                fbs = FirebaseServices.getInstance();
-                String username = etUsername.getText().toString();
-                String password = etPassword.getText().toString();
-                if (username.trim() .isEmpty() && password.trim().isEmpty()){
-                    Toast.makeText(getActivity(), "some fields are empty!", Toast.LENGTH_SHORT).show();
+                String username=etUsername.getText().toString();
+                String password=etPassword.getText().toString();
+                if(username.trim().isEmpty()||password.trim().isEmpty()){
+                    Toast.makeText(getActivity(), "some fields are empty", Toast.LENGTH_SHORT).show();
                     return;
+
                 }
-                // Login procedure
-                fbs.getAuth().signInWithEmailAndPassword(username, password).addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
+//                String name=fbs.getFire().collection("users").getParent().getId().toString();
+
+                //Signup procedure
+
+                fbs.getAuth().signInWithEmailAndPassword(username,password).addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()){
-                            Toast.makeText(getActivity(), "you have successfully login!", Toast.LENGTH_SHORT).show();
 
-                            FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                            ft.replace(R.id.framelayot, new AdminFragment());
-                            ft.commit();
+                        if (task.isSuccessful())
+                        {
+                            //Toast.makeText(getActivity(), "you have succesfully logged", Toast.LENGTH_SHORT).show();
+                            //gotoAddCarFragment();
+                            fbs = FirebaseServices.reloadInstance();
+                            gotoCarListMap();
+                            Toast.makeText(getActivity(), "Welcome ", Toast.LENGTH_SHORT).show();
 
+                            setNavigationBarVisible();
                         }
-                        else {
-
-                            Toast.makeText(getActivity(), "failed to login!check user or password!", Toast.LENGTH_SHORT).show();
+                        else
+                        {
+                            Toast.makeText(getActivity(), "failed to login! check user or password", Toast.LENGTH_SHORT).show();
                         }
+
                     }
                 });
 
 
-
             }
         });
 
-
     }
 
-    private void gotoSignupFragment() {
-        FragmentTransaction ft = getActivity(). getSupportFragmentManager().beginTransaction();
-        ft . replace(R.id.framelayot,new SignupFragment())  ;
-        ft . commit();
+    private void setNavigationBarVisible() {
+        ((MainActivity)getActivity()).getBottomNavigationView().setVisibility(View.VISIBLE);
     }
-    private void gotoForgotPasswordFragment(){
-        FragmentTransaction ft= getActivity().getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.framelayot,new ForgetPassword());
+
+    public void gotoCarListMap() {
+        FragmentTransaction ft=getActivity().getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.framelayot,new DeviceListMapFragment());
         ft.commit();
     }
+    private void gotoAddCarFragment() {
+        FragmentTransaction ft= getActivity().getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.framelayot,new AddDeviceFragment());
+        ft.commit();
+    }
+    private void gotoSignupFragment() {
+        FragmentTransaction ft= getActivity().getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.framelayot,new SignupFragment());
+        ft.commit();
 
-}
+    }
+    private void gotoFrgotPasswordFragment() {
+        FragmentTransaction ft= getActivity().getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.framelayot,new ForgetPasswordFragment());
+        ft.commit();
+
+    }}
+
+/*
+    public void gotologin(View view) {
+        gotoCarList();
+        setNavigationBarVisible();
+    } */
