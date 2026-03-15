@@ -36,7 +36,7 @@ public class DeviceListFragment extends Fragment {
     private FloatingActionButton btnAdd;
     private SearchView srchView;
     private Button favIcon;
-    private Map<String, Device> deviceMap;
+    private Map<String, Device> devicesMap;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER

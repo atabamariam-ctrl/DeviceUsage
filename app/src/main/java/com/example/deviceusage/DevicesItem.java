@@ -7,17 +7,17 @@ public class DevicesItem {
 
         private String name;
         private String model;
-        private String year;
+        private String brand;
         private String type;
         private String photo;
         private String phone;
 
         public DevicesItem() { }
 
-        public DevicesItem(String name, String model, String year, String type, String photo , String phone) {
+        public DevicesItem(String name, String model, String brand, String type, String photo , String phone) {
             this.name = name;
             this.model = model;
-            this.year = year;
+            this.brand = brand;
             this.type = type;
             this.photo = photo;
         }
@@ -25,7 +25,7 @@ public class DevicesItem {
     protected DevicesItem(Parcel in) {
 
         this.name = in.readString();
-        this.year = in.readString();
+        this.brand = in.readString();
         this.model = in.readString();
         this.type = in.readString();
         this.photo = in.readString();
@@ -45,7 +45,7 @@ public class DevicesItem {
 
     public void writeToParcel(Parcel dest, int flags) {
 
-        dest.writeString(this.year);
+        dest.writeString(this.brand);
         dest.writeString(this.model);
         dest.writeString(this.type);
         dest.writeString(this.name);
@@ -60,9 +60,9 @@ public class DevicesItem {
     public void setModel(String model) {
         this.photo = model;
     }
-        public String getYear() { return year; }
-    public void setYear(String year) {
-        this.year = year;
+        public String getBrand() { return brand; }
+    public void setBrand(String brand) {
+        this.brand = brand;
     }
         public String getType() { return type; }
     public void setType(String type) {
@@ -85,7 +85,7 @@ public class DevicesItem {
 
                 "name='" + name + '\'' +
                 ", type='" + type + '\'' +
-                ", year='" + year + '\'' +
+                ", brand='" + brand + '\'' +
                 ", model='" + model + '\'' +
                 ", photo='" + photo + '\'' +
                 ", phone='" + phone + '\'' +

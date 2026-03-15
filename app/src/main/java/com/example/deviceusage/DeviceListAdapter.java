@@ -2,6 +2,7 @@ package com.example.deviceusage;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -31,7 +34,7 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.My
                 String selectedItem = filteredList.get(position).getNameDevice();
                 Toast.makeText(getActivity(), "Clicked: " + selectedItem, Toast.LENGTH_SHORT).show(); */
                 Bundle args = new Bundle();
-                args.putParcelable("Device", DeviceList.get(position)); // or use Parcelable for better performance
+                args.putParcelable("device", (Parcelable) DeviceList.get(position)); // or use Parcelable for better performance
                 DeviceDetailsFragment cd = new DeviceDetailsFragment();
                 cd.setArguments(args);
                 FragmentTransaction ft= ((MainActivity)context).getSupportFragmentManager().beginTransaction();
@@ -45,12 +48,20 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.My
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(context).inflate(R.layout.item, parent, false);
-        return new MyViewHolder(v);
+        return new DeviceListAdapter.MyViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull DeviceListAdapter.MyViewHolder holder, int position) {
         DevicesItem Device = DeviceList.get(position);
+        User u = fbs.getCurrentUser();
+        if (u != null)
+        {
+            if (u.getFavorites().contains(Device.getId()))
+                Picasso.get().load(R.drawable.favcheck).into(holder.ivFavourite);
+            else
+                Picasso.get().load(R.drawable.ic_fav).into(holder.ivFavourite);
+        }
         // ======== النصوص ===========
         holder.Name.setText(Device.getName());
         holder.Model.setText(Device.getModel());
@@ -63,12 +74,12 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.My
                 itemClickListener.onItemClick(position);
         });
         /*
-        holder.carName.setOnClickListener(v -> {
+        holder.deviceName.setOnClickListener(v -> {
             if (clickListener != null) {
                 clickListener.setOnItemClick(position);
             }
         }); */
-        if (device.getPhoto() == null .getPhoto().isEmpty());
+        if (device.getPhoto() == null Device.getPhoto().isEmpty());
         {
             Picasso.get().load(R.drawable.ic_fav).into(holder.ivDevice); }
         else {
