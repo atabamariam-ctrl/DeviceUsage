@@ -31,7 +31,7 @@ public class SearchFragment extends Fragment {
     RecyclerView recyclerView;
     FirebaseServices fbs;
     MyAdapter myAdapter;
-    ArrayList<Device> list, filteredList,modelsDevice;
+    ArrayList<DevicesItem> list, filteredList, modelsDevice;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER

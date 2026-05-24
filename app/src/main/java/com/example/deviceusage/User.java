@@ -79,9 +79,11 @@ public class User {
     }
 
     public ArrayList<String> getFavorites() {
+        if (favorites == null) {
+            favorites = new ArrayList<>();
+        }
         return favorites;
     }
-
     public void setFavorites(ArrayList<String> favourits) {
         this.favorites = favourits;
     }

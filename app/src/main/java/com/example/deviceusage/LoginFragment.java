@@ -52,6 +52,9 @@ public class LoginFragment extends Fragment {
         fbs = FirebaseServices.getInstance();
         asGuest=getView().findViewById(R.id.btnGuest);
         asGuest.setVisibility(View.INVISIBLE);
+        getActivity()
+                .findViewById(R.id.bottomNavigationView)
+                .setVisibility(View.GONE);
         etUsername=getView().findViewById(R.id.etUsernameLogin);
         tvSignupLink=getView().findViewById(R.id.tvSignupLinkLogin);
         tvForgotPasswardLink=getView().findViewById(R.id.tvForgotPasswordLogin);
@@ -106,7 +109,7 @@ public class LoginFragment extends Fragment {
                         {
                             //Toast.makeText(getActivity(), "you have succesfully logged", Toast.LENGTH_SHORT).show();
                             //gotoAddCarFragment();
-                            fbs = FirebaseServices.reloadInstance();
+                            fbs = FirebaseServices.getInstance();
                             gotoCarListMap();
                             Toast.makeText(getActivity(), "Welcome ", Toast.LENGTH_SHORT).show();
 
@@ -127,7 +130,7 @@ public class LoginFragment extends Fragment {
     }
 
     private void setNavigationBarVisible() {
-        ((MainActivity)getActivity()).getBottomNavigationView().setVisibility(View.VISIBLE);
+        getActivity().findViewById(R.id.bottomNavigationView).setVisibility(View.VISIBLE);
     }
 
     public void gotoCarListMap() {
@@ -138,17 +141,20 @@ public class LoginFragment extends Fragment {
     private void gotoAddCarFragment() {
         FragmentTransaction ft= getActivity().getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.framelayot,new AddDeviceFragment());
+        ft.addToBackStack(null);
         ft.commit();
     }
     private void gotoSignupFragment() {
         FragmentTransaction ft= getActivity().getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.framelayot,new SignupFragment());
+        ft.addToBackStack(null);
         ft.commit();
 
     }
     private void gotoFrgotPasswordFragment() {
         FragmentTransaction ft= getActivity().getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.framelayot,new ForgetPasswordFragment());
+        ft.addToBackStack(null);
         ft.commit();
 
     }}

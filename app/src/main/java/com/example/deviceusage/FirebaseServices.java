@@ -85,7 +85,7 @@ public class FirebaseServices {
     }
 
     public void getCurrentObjectUser(UserCallback callback) {        ArrayList<User> usersInternal = new ArrayList<>();
-        fire.collection("users").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        firestore.collection("users").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 for (DocumentSnapshot dataSnapshot: queryDocumentSnapshots.getDocuments()){
@@ -139,7 +139,7 @@ public class FirebaseServices {
         ArrayList<String> favoritesValue = user.getFavorites();
 
         // Create a query for documents based on a specific field
-        Query query = fire.collection(collectionName).
+        Query query = firestore.collection(collectionName).
                 whereEqualTo(usernameFieldName, usernameValue);
 
         // Execute the query
@@ -178,4 +178,4 @@ public class FirebaseServices {
 
 
 
-}
+

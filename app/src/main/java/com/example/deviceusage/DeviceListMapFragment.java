@@ -1,5 +1,7 @@
 package com.example.deviceusage;
 
+import static android.widget.SearchView.*;
+
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -24,11 +26,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link DeviceListMapFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class DeviceListMapFragment extends Fragment {
     private RecyclerView recyclerView;
     private ImageView ivProfile;
@@ -37,28 +34,15 @@ public class DeviceListMapFragment extends Fragment {
     private SearchView srchView;
     private ArrayList<DevicesItem> Devices, filteredList;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     public DeviceListMapFragment() {
-        // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment DeviceListMapFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static DeviceListMapFragment newInstance(String param1, String param2) {
         DeviceListMapFragment fragment = new DeviceListMapFragment();
         Bundle args = new Bundle();
@@ -81,36 +65,45 @@ public class DeviceListMapFragment extends Fragment {
         super.onStart();
         init();
     }
+
     private void init() {
         recyclerView = getView().findViewById(R.id.rvDevicelistMap);
         ivProfile = getView().findViewById(R.id.ivProfileDeviceListMapFragment);
         fbs = FirebaseServices.getInstance();
         fbs.setUserChangeFlag(false);
-        /*if (fbs.getAuth().getCurrentUser() == null)
-            fbs.setCurrentUser(fbs.getCurrentObjectUser()); */
+
         Devices = new ArrayList<>();
+        filteredList = new ArrayList<>();
+
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
         Devices = getDevices();
+
         myAdapter = new DeviceListAdapter(getActivity(), Devices);
-        filteredList = new ArrayList<>();
+        recyclerView.setAdapter(myAdapter);
+
         myAdapter.setOnItemClickListener(new DeviceListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                // Handle item click here
                 String selectedItem = Devices.get(position).getName();
                 Toast.makeText(getActivity(), "Clicked: " + selectedItem, Toast.LENGTH_SHORT).show();
+
                 Bundle args = new Bundle();
-                args.putParcelable("device", devices.get(position)); // or use Parcelable for better performance
+                args.putString("deviceName", Devices.get(position).getName());
+
                 DeviceDetailsFragment cd = new DeviceDetailsFragment();
                 cd.setArguments(args);
+
                 FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                 ft.replace(R.id.framelayot, cd);
+                ft.addToBackStack(null);
                 ft.commit();
             }
         });
+
         srchView = getView().findViewById(R.id.srchViewDeviceListMapFragment);
-        srchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        srchView.setOnQueryTextListener(new OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 applyFilter(query);
@@ -119,11 +112,10 @@ public class DeviceListMapFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                //applyFilter(newText);
                 return false;
             }
         });
-        //((MainActivity)getActivity()).pushFragment(new DevicesListFragment());
+
         ivProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -133,54 +125,30 @@ public class DeviceListMapFragment extends Fragment {
     }
 
     private void applyFilter(String query) {
-        // TODO: add onBackspace - old and new query
-        if (query.trim().isEmpty())
-        {
-            myAdapter = new DeviceListAdapter(getContext(), devices);
+        if (query.trim().isEmpty()) {
+            myAdapter = new DeviceListAdapter(getContext(), Devices);
             recyclerView.setAdapter(myAdapter);
-            //myAdapter.notifyDataSetChanged();
             return;
         }
+
         filteredList.clear();
-        for(DevicesItem car : filteredList)
-        {
-            if (device.getDevice_model().toLowerCase().contains(query.toLowerCase()) ||
-                    device.getnameDevice().toLowerCase().contains(query.toLowerCase()) ||
+
+        for (DevicesItem device : Devices) {
+            if (device.getModel().toLowerCase().contains(query.toLowerCase()) ||
+                    device.getName().toLowerCase().contains(query.toLowerCase()) ||
                     device.getBrand().toLowerCase().contains(query.toLowerCase()) ||
-                    device.getDevice_type().toLowerCase().contains(query.toLowerCase())
-                    )
-            {
+                    device.getType().toLowerCase().contains(query.toLowerCase())) {
                 filteredList.add(device);
             }
         }
-        if (filteredList.size() == 0)
-        {
+
+        if (filteredList.size() == 0) {
             showNoDataDialogue();
             return;
         }
+
         myAdapter = new DeviceListAdapter(getContext(), filteredList);
         recyclerView.setAdapter(myAdapter);
-
-       /*
-        myAdapter= new CarListAdapter2(getActivity(),filteredList);
-        recyclerView.setAdapter(myAdapter); */
-
-        myAdapter.setOnItemClickListener(new DeviceListAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                /*
-                // Handle item click here
-                String selectedItem = filteredList.get(position).getNameCar();
-                Toast.makeText(getActivity(), "Clicked: " + selectedItem, Toast.LENGTH_SHORT).show();
-                Bundle args = new Bundle();
-                args.putParcelable("car", filteredList.get(position)); // or use Parcelable for better performance
-                CarDetailsFragment cd = new CarDetailsFragment();
-                cd.setArguments(args);
-                FragmentTransaction ft=getActivity().getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.frameLayout,cd);
-                ft.commit(); */
-            }
-        });
     }
 
     private void showNoDataDialogue() {
@@ -193,47 +161,52 @@ public class DeviceListMapFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_device_list_map, container, false);
     }
 
     public void gotoProfileFragment() {
-        FragmentTransaction ft= getActivity().getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.framelayot,new ProfileFragment());
+        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.framelayot, new ProfileFragment());
         ft.commit();
     }
 
-    public ArrayList<DevicesItem> getDevices()
-    {
+    public ArrayList<DevicesItem> getDevices() {
         ArrayList<DevicesItem> Devices = new ArrayList<>();
 
         try {
             Devices.clear();
-            fbs.getFire().collection("Device2")
+            fbs.getFire().collection("device")
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if (task.isSuccessful()) {
                                 for (QueryDocumentSnapshot document : task.getResult()) {
-                                    devices.add(document.toObject(DeviceItem.class));
+
+                                    User u = fbs.getCurrentUser();
+
+                                    DevicesItem device = document.toObject(DevicesItem.class);
+
+                                    device.setId(document.getId());
+
+                                    if (u != null &&
+                                            u.getFavorites() != null &&
+                                            u.getFavorites().contains(device.getId())) {
+
+                                        Devices.add(device);
+                                    }
                                 }
 
-                                DeviceListAdapter adapter = new DeviceListAdapter(getActivity(), devices);
+                                DeviceListAdapter adapter = new DeviceListAdapter(getActivity(), Devices);
                                 recyclerView.setAdapter(adapter);
-                                //addUserToCompany(companies, user);
-                            } else {
-                                //Log.e("AllRestActivity: readData()", "Error getting documents.", task.getException());
                             }
                         }
                     });
-        }
-        catch (Exception e)
-        {
-            Log.e("getCompaniesMap(): ", e.getMessage());
+        } catch (Exception e) {
+            Log.e("getDevices(): ", e.getMessage());
         }
 
-        return devices;
+        return Devices;
     }
 
     @Override
@@ -241,8 +214,7 @@ public class DeviceListMapFragment extends Fragment {
         super.onPause();
         User u = fbs.getCurrentUser();
         if (u != null && fbs.isUserChangeFlag())
-            fbs.updateUser(u); // updating favorites
-
+            fbs.updateUser(u);
     }
-}
 
+}

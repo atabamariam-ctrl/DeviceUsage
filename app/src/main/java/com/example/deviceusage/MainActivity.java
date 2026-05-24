@@ -2,6 +2,7 @@ package com.example.deviceusage;
 
 import android.os.Bundle;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -26,17 +27,47 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            Fragment fragment = null;
+
+            if (item.getItemId() == R.id.nav_home) {
+                fragment = new DeviceListMapFragment();
+            } else if (item.getItemId() == R.id.nav_add) {
+                fragment = new AddDeviceFragment();
+            } else if (item.getItemId() == R.id.nav_favorite) {
+                fragment = new FavoriteFragment();
+            } else if (item.getItemId() == R.id.nav_profile) {
+                fragment = new ProfileFragment();
+            }
+
+            if (fragment != null) {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.framelayot, fragment)
+                        .commit();
+            }
+
+            return true;
+        });
     }
     @Override
     public void onStart(){
-
         super.onStart();
-        gotoAdminFragment();
+        gotoLoginFragment();
+    }
+
+    private void gotoLoginFragment() {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.framelayot, new LoginFragment());
+        ft.addToBackStack(null);
+        ft.commit();
     }
 
     private void gotoAdminFragment() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.framelayot , new AdminFragment());
+        ft.addToBackStack(null);
         ft.commit();
     }
     // Method to add a new fragment to the stack

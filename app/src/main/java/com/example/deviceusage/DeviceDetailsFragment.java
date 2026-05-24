@@ -137,7 +137,7 @@ public class DeviceDetailsFragment extends Fragment {
                 // Now you can use 'data' as needed in FragmentB
                 tvnameDevice.setText(myDevice.getName());
                 tvDevice_type.setText(myDevice.getType());
-                tvBrand.setText(myDevice.getYear());
+                tvBrand.setText(myDevice.getBrand());
                 tvDevice_model.setText(myDevice.getModel());
                 tvPhone.setText(myDevice.getPhone());
 

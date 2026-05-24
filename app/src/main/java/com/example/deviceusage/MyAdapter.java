@@ -10,6 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
@@ -36,40 +38,30 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
         holder.name.setText(item.getName());
         holder.model.setText(item.getModel());
-        holder.Brand.setText(item.getYear());
+        holder.Brand.setText(item.getBrand());
         holder.type.setText(item.getType());
-        // إذا أردت عرض الصورة لاحقاً
-        holder.name.setOnClickListener(v -> {
-            if (itemClickListener != null) {
-                itemClickListener.onItemClick(position);
-    }
 
-        });
-        if (device.getPhoto() == null || device.getPhoto().isEmpty())
-        {
-            Picasso.get().load(R.drawable.ic_fav).into(holder.ivDevice);
-        }
-        else {
-            Picasso.get().load(Device.getPhoto()).into(holder.ivDevice);
-        }
-        holder.ivFavourite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setFavourite(holder, device);
+        holder.name.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onItemClick(position);
             }
         });
-    }
-    private void setFavourite(@NonNull MyViewHolder holder, Device device) {
-        /*
-        if (isUserFavourite(device) == true)
-        {
-            holder.ivFavourite.setBackgroundResource(R.drawable.ic_fav);
-        }
-        else
-        {
 
-        } */
+        if (item.getPhoto() == null || item.getPhoto().isEmpty()) {
+            Picasso.get().load(R.drawable.ic_fav).into(holder.ivDevice);
+        } else {
+            Picasso.get().load(item.getPhoto()).into(holder.ivDevice);
+        }
+
+        holder.ivFavourite.setOnClickListener(v -> {
+            setFavourite(holder, item);
+        });
     }
+
+    private void setFavourite(@NonNull ViewHolder holder, DevicesItem device) {
+
+    }
+
     @Override
     public int getItemCount() {
         return list.size();
@@ -77,18 +69,18 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView name, model, Brand , type;
+        TextView name, model, Brand, type;
         ImageView ivDevice, ivFavourite;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            name = itemView.findViewById(R.id.tvDeviceName_deviceListFragment);
-            model = itemView.findViewById(R.id.tvModel_deviceListFragment);
-            Brand = itemView.findViewById(R.id.tvBrand_deviceListFragment);
-            type = itemView.findViewById(R.id.tvType_deviceListFragment);
-            ivFavourite = itemView.findViewById(R.id.ivFavoriteIcon);
-            ivDevice = itemView.findViewById(R.id.ivDevicePhotoItem);
+            name = itemView.findViewById(R.id.tvName);
+            model = itemView.findViewById(R.id.tvModel);
+            Brand = itemView.findViewById(R.id.tvBrand);
+            type = itemView.findViewById(R.id.tvType);
+            ivFavourite = itemView.findViewById(R.id.ivFavourite);
+            ivDevice = itemView.findViewById(R.id.ivDevice);
         }
     }
 
