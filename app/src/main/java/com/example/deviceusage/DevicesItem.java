@@ -1,6 +1,7 @@
 package com.example.deviceusage;
 
 public class DevicesItem {
+    private String userId;
 
     private String id;
     private String name;
@@ -58,5 +59,13 @@ public class DevicesItem {
 
     public String getPhone() {
         return phone;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

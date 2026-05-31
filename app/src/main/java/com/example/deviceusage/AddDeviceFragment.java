@@ -119,6 +119,8 @@ public class AddDeviceFragment extends Fragment {
                         ""
                 );
 
+        device.setUserId(fbs.getAuth().getCurrentUser().getUid());
+
         fbs.getFire()
                 .collection("device")
                 .add(device)

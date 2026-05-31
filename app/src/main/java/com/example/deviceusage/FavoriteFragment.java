@@ -40,6 +40,8 @@ public class FavoriteFragment extends Fragment {
     }
 
     private void init() {
+        getActivity().findViewById(R.id.bottomNavigationView).setVisibility(View.VISIBLE);
+
         recyclerView = getView().findViewById(R.id.rvDevicelist);
         fbs = FirebaseServices.getInstance();
 
@@ -49,28 +51,10 @@ public class FavoriteFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        devices = getDevices();
         myAdapter = new DeviceListAdapter(getActivity(), devices);
         recyclerView.setAdapter(myAdapter);
 
-        myAdapter.setOnItemClickListener(new DeviceListAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                String selectedItem = devices.get(position).getName();
-                Toast.makeText(getActivity(), "Clicked: " + selectedItem, Toast.LENGTH_SHORT).show();
-
-                Bundle args = new Bundle();
-                args.putString("deviceName", devices.get(position).getName());
-
-                DeviceDetailsFragment cd = new DeviceDetailsFragment();
-                cd.setArguments(args);
-
-                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.framelayot, cd);
-                ft.addToBackStack(null);
-                ft.commit();
-            }
-        });
+        loadFavoriteDevices();
 
         srchView = getView().findViewById(R.id.srchViewfavoritefragment);
         srchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -82,9 +66,45 @@ public class FavoriteFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                applyFilter(newText);
                 return false;
             }
         });
+    }
+
+    private void loadFavoriteDevices() {
+        devices.clear();
+
+        User u = fbs.getCurrentUser();
+
+        if (u == null || u.getFavorites() == null || u.getFavorites().isEmpty()) {
+            myAdapter.notifyDataSetChanged();
+            return;
+        }
+
+        fbs.getFire().collection("device")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            devices.clear();
+
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                DevicesItem device = document.toObject(DevicesItem.class);
+                                device.setId(document.getId());
+
+                                if (u.getFavorites().contains(device.getId())) {
+                                    devices.add(device);
+                                }
+                            }
+
+                            myAdapter.notifyDataSetChanged();
+                        } else {
+                            Toast.makeText(getActivity(), "Failed to load favorites", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 
     private void applyFilter(String query) {
@@ -97,42 +117,16 @@ public class FavoriteFragment extends Fragment {
         filteredList.clear();
 
         for (DevicesItem device : devices) {
-            if (device.getType().toLowerCase().contains(query.toLowerCase()) ||
+            if (device.getName().toLowerCase().contains(query.toLowerCase()) ||
                     device.getModel().toLowerCase().contains(query.toLowerCase()) ||
-                    device.getName().toLowerCase().contains(query.toLowerCase()) ||
                     device.getBrand().toLowerCase().contains(query.toLowerCase()) ||
-                    device.getPhoto().toLowerCase().contains(query.toLowerCase()) ||
-                    device.getPhone().toLowerCase().contains(query.toLowerCase())) {
+                    device.getType().toLowerCase().contains(query.toLowerCase())) {
                 filteredList.add(device);
             }
         }
 
-        if (filteredList.size() == 0) {
-            showNoDataDialogue();
-            return;
-        }
-
         myAdapter = new DeviceListAdapter(getContext(), filteredList);
         recyclerView.setAdapter(myAdapter);
-
-        myAdapter.setOnItemClickListener(new DeviceListAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                String selectedItem = filteredList.get(position).getName();
-                Toast.makeText(getActivity(), "Clicked: " + selectedItem, Toast.LENGTH_SHORT).show();
-
-                Bundle args = new Bundle();
-                args.putString("deviceName", filteredList.get(position).getName());
-
-                DeviceDetailsFragment cd = new DeviceDetailsFragment();
-                cd.setArguments(args);
-
-                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.framelayot, cd);
-                ft.addToBackStack(null);
-                ft.commit();
-            }
-        });
     }
 
     private void showNoDataDialogue() {
@@ -145,48 +139,8 @@ public class FavoriteFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         return inflater.inflate(R.layout.fragment_favorite, container, false);
-    }
-
-    public ArrayList<DevicesItem> getDevices() {
-        ArrayList<DevicesItem> devices = new ArrayList<>();
-
-        try {
-            devices.clear();
-            fbs.getFire().collection("device")
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
-                                User u = fbs.getCurrentUser();
-
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-
-                                    DevicesItem device = document.toObject(DevicesItem.class);
-
-                                    device.setId(document.getId());
-
-                                    if (u != null &&
-                                            u.getFavorites() != null &&
-                                            u.getFavorites().contains(device.getId())) {
-
-                                        devices.add(device);
-                                    }
-                                }
-
-                                DeviceListAdapter adapter =
-                                        new DeviceListAdapter(getActivity(), devices);
-
-                                recyclerView.setAdapter(adapter);
-                            }
-                        }
-                    });
-        } catch (Exception e) {
-            Log.e("getDevices(): ", e.getMessage());
-        }
-
-        return devices;
     }
 
     @Override

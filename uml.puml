@@ -1,0 +1,329 @@
+@startuml
+class com.example.deviceusage.MyAdapter {
+~ Context context
+~ ArrayList<DevicesItem> list
+- OnItemClickListener listener
++ ViewHolder onCreateViewHolder(ViewGroup,int)
++ void onBindViewHolder(ViewHolder,int)
+- void setFavourite(ViewHolder,DevicesItem)
++ int getItemCount()
++ void setOnItemClickListener(OnItemClickListener)
+}
+
+
+class com.example.deviceusage.MyAdapter$ViewHolder {
+~ TextView name
+~ ImageView ivDevice
+}
+
+interface com.example.deviceusage.MyAdapter$OnItemClickListener {
+~ void onItemClick(int)
+}
+
+class com.example.deviceusage.ForgetPasswordFragment {
+- FirebaseServices fbs
+- EditText etEmail
+- Button btnReset
+- ImageView ivBack
++ {static} ForgetPasswordFragment newInstance(String,String)
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
++ void onStart()
+}
+
+
+class com.example.deviceusage.AddDeviceFragment {
+- EditText etDeviceName
+- EditText etBatteryLevel
+- EditText etUsageHours
+- EditText etDeviceStatus
+- EditText etNotes
+- Button btnAddDevice
+- FirebaseServices fbs
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
++ void onStart()
+- void init()
+- void addDevice()
+- void gotoDeviceListFragment()
+}
+
+
+interface com.example.deviceusage.UserCallback {
+~ void onUserLoaded(User)
+}
+
+class com.example.deviceusage.DevicesItem {
+- String userId
+- String id
+- String name
+- String model
+- String brand
+- String type
+- String photo
+- String phone
++ String getId()
++ void setId(String)
++ String getName()
++ String getModel()
++ String getBrand()
++ String getType()
++ String getPhoto()
++ String getPhone()
++ String getUserId()
++ void setUserId(String)
+}
+
+
+class com.example.deviceusage.AdminFragment {
+- Button btnHome
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
++ void onStart()
+- void openFragment(Fragment)
+}
+
+
+class com.example.deviceusage.MainActivity {
+- Stack<Fragment> fragmentStack
+# void onCreate(Bundle)
+- void gotoLoginFragment()
++ void pushFragment(Fragment)
+}
+
+
+enum com.example.deviceusage.ListFragmentType {
++  Regular
++  Search
++  Favourite
+}
+
+class com.example.deviceusage.DeviceListMapFragment {
+- RecyclerView recyclerView
+- ImageView ivProfile
+- FirebaseServices fbs
+- DeviceListAdapter myAdapter
+- SearchView srchView
+- ArrayList<DevicesItem> Devices
++ void onStart()
+- void init()
+- void loadDevices()
+- void applyFilter(String)
+- void showNoDataDialogue()
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
++ void gotoProfileFragment()
+}
+
+
+class com.example.deviceusage.DeviceDetailsFragment {
+- TextView tvName
+- TextView tvBattery
+- TextView tvUsage
+- TextView tvStatus
+- ImageView ivDevice
+- Button btnMonitor
+- Button btnOptimize
+- Button btnStatus
+- DevicesItem myDevice
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
++ void onStart()
+- void init()
+}
+
+
+class com.example.deviceusage.SignupFragment {
+- EditText etUsername
+- Button btnSignup
+- FirebaseServices fbs
+- TextView tvLoginLink
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
++ void onStart()
+}
+
+
+class com.example.deviceusage.FirebaseServices {
+- {static} FirebaseServices instance
+- FirebaseAuth auth
+- FirebaseFirestore firestore
+- FirebaseStorage storage
+- Uri selectedImageURL
+- User currentUser
+- boolean userChangeFlag
++ Uri getSelectedImageURL()
++ FirebaseFirestore getFire()
++ void setSelectedImageURL(Uri)
++ FirebaseAuth getAuth()
++ FirebaseStorage getStorage()
++ FirebaseFirestore getFirestore()
++ {static} FirebaseServices getInstance()
++ boolean isUserChangeFlag()
++ void setUserChangeFlag(boolean)
++ void getCurrentObjectUser(UserCallback)
++ User getCurrentUser()
++ void setCurrentUser(User)
++ boolean updateUser(User)
+}
+
+
+class com.example.deviceusage.FavoriteFragment {
+- RecyclerView recyclerView
+- FirebaseServices fbs
+- DeviceListAdapter myAdapter
+- SearchView srchView
+- ArrayList<DevicesItem> devices
++ void onStart()
+- void init()
+- void loadFavoriteDevices()
+- void applyFilter(String)
+- void showNoDataDialogue()
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
++ void onPause()
+}
+
+
+class com.example.deviceusage.Utils {
+- {static} Utils instance
+- FirebaseServices fbs
+- String imageStr
++ {static} Utils getInstance()
++ void showMessageDialog(Context,String)
++ void uploadImage(Context,Uri)
+}
+
+
+class com.example.deviceusage.DeviceListAdapter {
+~ Context context
+~ ArrayList<DevicesItem> DeviceList
+- OnItemClickListener itemClickListener
+- FirebaseServices fbs
++ MyViewHolder onCreateViewHolder(ViewGroup,int)
++ void onBindViewHolder(MyViewHolder,int)
++ int getItemCount()
++ void setOnItemClickListener(OnItemClickListener)
+}
+
+
+class com.example.deviceusage.DeviceListAdapter$MyViewHolder {
+~ TextView Name
+~ ImageView ivFavourite
+}
+
+interface com.example.deviceusage.DeviceListAdapter$OnItemClickListener {
+~ void onItemClick(int)
+}
+
+class com.example.deviceusage.ProfileFragment {
+- EditText etFirstName
+- Button btnUpdate
+- ImageView ivUser
+- FirebaseServices fbs
+- Utils utils
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
++ void onStart()
+- void init()
+- void fillUserData()
+- void updateProfile()
+}
+
+
+class com.example.deviceusage.DeviceListFragment {
+- RecyclerView recyclerView
+- FirebaseServices fbs
+- MyAdapter myAdapter
+- ArrayList<DevicesItem> list
+- FloatingActionButton btnAdd
+- SearchView srchView
+- Map<String,DevicesItem> devicesMap
+- {static} String ARG_PARAM1
+- {static} String ARG_PARAM2
+- String mParam1
+- String mParam2
++ {static} DeviceListFragment newInstance(String,String)
++ void onCreate(Bundle)
++ void onStart()
+- void init()
+- void applyFilter(String)
+- void showNoDataDialogue()
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
++ void gotoAddDeviceFragment()
+}
+
+
+class com.example.deviceusage.User {
+- String firstName
+- String lastName
+- String username
+- String phone
+- String address
+- String photo
+- ArrayList<String> favorites
++ String getFirstName()
++ void setFirstName(String)
++ String getLastName()
++ void setLastName(String)
++ String getUsername()
++ void setUsername(String)
++ String getPhone()
++ void setPhone(String)
++ String getAddress()
++ void setAddress(String)
++ String getPhoto()
++ void setPhoto(String)
++ ArrayList<String> getFavorites()
++ void setFavorites(ArrayList<String>)
++ String toString()
+}
+
+
+class com.example.deviceusage.SearchFragment {
+- SearchView searchView
+- Button clearButton
+- RecyclerView recyclerView
+- FirebaseServices fbs
+- DeviceListAdapter adapter
+- ArrayList<DevicesItem> list
+- ArrayList<DevicesItem> filteredList
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
++ void onStart()
+- void loadDevices()
+- void filter(String)
+}
+
+
+class com.example.deviceusage.LoginFragment {
+- EditText etUsername
+- TextView tvSignupLink
+- TextView tvForgotPasswardLink
+- Button btnLogin
+- Button asGuest
+- FirebaseServices fbs
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
++ void onStart()
+- void setNavigationBarVisible()
++ void gotoCarListMap()
+- void gotoAddCarFragment()
+- void gotoSignupFragment()
+- void gotoFrgotPasswordFragment()
+}
+
+
+
+
+com.example.deviceusage.Adapter <|-- com.example.deviceusage.MyAdapter
+com.example.deviceusage.MyAdapter +.. com.example.deviceusage.MyAdapter$ViewHolder
+com.example.deviceusage.ViewHolder <|-- com.example.deviceusage.MyAdapter$ViewHolder
+com.example.deviceusage.MyAdapter +.. com.example.deviceusage.MyAdapter$OnItemClickListener
+androidx.fragment.app.Fragment <|-- com.example.deviceusage.ForgetPasswordFragment
+androidx.fragment.app.Fragment <|-- com.example.deviceusage.AddDeviceFragment
+androidx.fragment.app.Fragment <|-- com.example.deviceusage.AdminFragment
+androidx.appcompat.app.AppCompatActivity <|-- com.example.deviceusage.MainActivity
+androidx.fragment.app.Fragment <|-- com.example.deviceusage.DeviceListMapFragment
+androidx.fragment.app.Fragment <|-- com.example.deviceusage.DeviceDetailsFragment
+androidx.fragment.app.Fragment <|-- com.example.deviceusage.SignupFragment
+androidx.fragment.app.Fragment <|-- com.example.deviceusage.FavoriteFragment
+com.example.deviceusage.Adapter <|-- com.example.deviceusage.DeviceListAdapter
+com.example.deviceusage.DeviceListAdapter +.. com.example.deviceusage.DeviceListAdapter$MyViewHolder
+com.example.deviceusage.ViewHolder <|-- com.example.deviceusage.DeviceListAdapter$MyViewHolder
+com.example.deviceusage.DeviceListAdapter +.. com.example.deviceusage.DeviceListAdapter$OnItemClickListener
+androidx.fragment.app.Fragment <|-- com.example.deviceusage.ProfileFragment
+androidx.fragment.app.Fragment <|-- com.example.deviceusage.DeviceListFragment
+androidx.fragment.app.Fragment <|-- com.example.deviceusage.SearchFragment
+androidx.fragment.app.Fragment <|-- com.example.deviceusage.LoginFragment
+@enduml

@@ -159,8 +159,3 @@ public class LoginFragment extends Fragment {
 
     }}
 
-/*
-    public void gotologin(View view) {
-        gotoCarList();
-        setNavigationBarVisible();
-    } */
