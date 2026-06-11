@@ -1,6 +1,6 @@
 package com.example.deviceusage;
 
-public class DevicesItem {
+public class Device {
 
     private String id;
     private String userId;
@@ -19,12 +19,12 @@ public class DevicesItem {
     private String photo;
     private boolean favorite;
 
-    public DevicesItem() {
+    public Device() {
     }
 
-    public DevicesItem(String name, String type, String brand, String model,
-                       String phone, String batteryLevel, String usageHours,
-                       String status, String notes, String photo, boolean favorite) {
+    public Device(String name, String type, String brand, String model,
+                  String phone, String batteryLevel, String usageHours,
+                  String status, String notes, String photo, boolean favorite) {
 
         this.name = name;
         this.type = type;

@@ -24,8 +24,8 @@
             android:scaleType="centerInside"
             android:background="#E9EEF6"
             android:padding="12dp"
-            android:src="@drawable/ic_profile"
-            android:contentDescription="Device" />
+            android:src="@mipmap/ic_launcher"
+            android:contentDescription="Device Image" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -44,31 +44,59 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/tvModel"
+                android:id="@+id/tvType"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:text="Usage Hours"
-                android:textColor="#6B7280"
-                android:textSize="15sp" />
+                android:layout_marginTop="5dp"
+                android:text="Type"
+                android:textColor="#475569"
+                android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/tvBrand"
+                android:id="@+id/tvBrandModel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
-                android:text="Status"
-                android:textColor="#6B7280"
-                android:textSize="15sp" />
+                android:text="Brand/Model"
+                android:textColor="#475569"
+                android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/tvType"
+                android:id="@+id/tvBattery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:text="Battery"
+                android:textColor="#475569"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tvUsage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:text="Usage"
+                android:textColor="#475569"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tvStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Status"
+                android:textColor="#16A34A"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvNotes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
                 android:text="Notes"
-                android:textColor="#6B7280"
-                android:textSize="15sp" />
+                android:textColor="#64748B"
+                android:textSize="13sp" />
 
         </LinearLayout>
 
