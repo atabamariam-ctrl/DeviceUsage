@@ -24,7 +24,6 @@ public class LoginFragment extends Fragment {
     private TextView tvSignupLink;
     private TextView tvForgotPasswordLink;
     private Button btnLogin;
-    private Button btnGuest;
     private FirebaseServices fbs;
 
     public LoginFragment() {
@@ -53,15 +52,6 @@ public class LoginFragment extends Fragment {
         tvSignupLink = getView().findViewById(R.id.tvSignupLinkLogin);
         tvForgotPasswordLink = getView().findViewById(R.id.tvForgotPasswordLogin);
         btnLogin = getView().findViewById(R.id.btnLoginLogin);
-        btnGuest = getView().findViewById(R.id.btnGuest);
-
-        btnGuest.setVisibility(View.VISIBLE);
-
-        btnGuest.setOnClickListener(v -> {
-            Toast.makeText(getActivity(), "Continue as Guest", Toast.LENGTH_SHORT).show();
-            gotoDeviceListMap();
-            setNavigationBarVisible();
-        });
 
         tvSignupLink.setOnClickListener(v -> gotoSignupFragment());
 
@@ -127,17 +117,6 @@ public class LoginFragment extends Fragment {
                         .beginTransaction();
 
         ft.replace(R.id.framelayot, new DeviceListMapFragment());
-        ft.commit();
-    }
-
-    private void gotoAddDeviceFragment() {
-        FragmentTransaction ft =
-                getActivity()
-                        .getSupportFragmentManager()
-                        .beginTransaction();
-
-        ft.replace(R.id.framelayot, new AddDeviceFragment());
-        ft.addToBackStack(null);
         ft.commit();
     }
 

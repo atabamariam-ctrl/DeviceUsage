@@ -66,23 +66,16 @@
                     android:text="LOGIN"
                     android:textColor="@android:color/white" />
 
-                <Button
-                    android:id="@+id/btnGuest"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:backgroundTint="#00FFFFFF"
-                    android:text="Login as Guest"
-                    android:textColor="#2563EB" />
-
                 <TextView
                     android:id="@+id/tvForgotPasswordLogin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="14dp"
                     android:text="Forgot Password?"
                     android:textColor="#2563EB"
                     android:textSize="15sp" />
+
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -90,13 +83,14 @@
             android:id="@+id/tvSignupLinkLogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="104dp"
             android:text="Create new account"
             android:textColor="#0F172A"
             android:textSize="17sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

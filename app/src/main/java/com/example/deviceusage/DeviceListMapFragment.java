@@ -38,11 +38,16 @@ public class DeviceListMapFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+
+        if (getActivity() != null) {
+            getActivity()
+                    .findViewById(R.id.bottomNavigationView)
+                    .setVisibility(View.VISIBLE);
+        }
+
         init();
     }
-
     private void init() {
-        getActivity().findViewById(R.id.bottomNavigationView).setVisibility(View.VISIBLE);
 
         recyclerView = getView().findViewById(R.id.rvDevicelistMap);
         ivProfile = getView().findViewById(R.id.ivProfileDeviceListMapFragment);
